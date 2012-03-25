@@ -12,34 +12,22 @@
 //
 
 #import "cocos2d.h"
-
+#import "HelloWorldLayer.h"
 #import "RootViewController.h"
 #import "GameConfig.h"
 
 @implementation RootViewController
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-	if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-	// Custom initialization
-	}
-	return self;
- }
- */
+@synthesize level = _level;
 
-/*
- // Implement loadView to create a view hierarchy programmatically, without using a nib.
- - (void)loadView {
- }
- */
-
-/*
- // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
- - (void)viewDidLoad {
-	[super viewDidLoad];
- }
- */
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil initWithLevel:(int)level
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        _level = level;
+    }
+    return self;
+}
 
 
 // Override to allow orientations other than the default portrait orientation.
@@ -141,6 +129,30 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [[CCDirector sharedDirector] end];
+}
+
+- (void)setupCocos2D {
+    EAGLView *glView = [EAGLView viewWithFrame:self.view.bounds
+                                   pixelFormat:kEAGLColorFormatRGB565	// kEAGLColorFormatRGBA8
+                                   depthFormat:0                        // GL_DEPTH_COMPONENT16_OES
+                        ];
+    glView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view insertSubview:glView atIndex:0];
+    [[CCDirector sharedDirector] setOpenGLView:glView];
+    CCScene *scene = [HelloWorldLayer sceneWithLevel:_level rootViewController:self];
+    [[CCDirector sharedDirector] runWithScene:scene];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [super viewWillAppear:animated];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];    
+    [self setupCocos2D];
 }
 
 

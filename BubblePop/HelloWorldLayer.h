@@ -9,13 +9,29 @@
 
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
+#import "RootViewController.h"
+
+
+typedef enum Level {
+    EASY,
+    MEDIUM,
+    HARD
+} Level;
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer
+@interface HelloWorldLayer : CCLayerColor
 {
+    NSMutableArray *_bubbles;
+    int _bubblesDestroyed;
+    RootViewController * _rootViewController;
+    int _level;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child
-+(CCScene *) scene;
++(CCScene *) sceneWithLevel:(int)level rootViewController:(RootViewController *)rootViewController;
+- (id)initWithLevel:(int)level rootViewController:(RootViewController *)rootViewController;
+
+
 
 @end
+

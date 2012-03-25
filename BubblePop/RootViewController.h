@@ -10,7 +10,11 @@
 
 
 @interface RootViewController : UIViewController {
-
+    int _level;
 }
+
+@property int level;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil initWithLevel:(int)level;
 
 @end
